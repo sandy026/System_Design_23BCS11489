@@ -1,0 +1,171 @@
+<svg width="100%" viewBox="0 0 680 820" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Real-Time Chat System — High-Level Architecture</title>
+  <desc>System architecture diagram for a WhatsApp-like chat application showing clients, CDN, load balancers, microservices, messaging, databases, and media storage layers.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#888780" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <style>
+      text { font-family: sans-serif; }
+      .label-sm { font-size: 12px; fill: #5F5E5A; }
+      .label-md { font-size: 13px; font-weight: 600; fill: #2C2C2A; }
+      .layer-title { font-size: 11px; fill: #888780; letter-spacing: 0.08em; }
+      .box-teal { fill: #E1F5EE; stroke: #0F6E56; stroke-width: 0.5; }
+      .box-amber { fill: #FAEEDA; stroke: #854F0B; stroke-width: 0.5; }
+      .box-purple { fill: #EEEDFE; stroke: #534AB7; stroke-width: 0.5; }
+      .box-blue { fill: #E6F1FB; stroke: #185FA5; stroke-width: 0.5; }
+      .box-coral { fill: #FAECE7; stroke: #993C1D; stroke-width: 0.5; }
+      .box-green { fill: #EAF3DE; stroke: #3B6D11; stroke-width: 0.5; }
+      .box-gray { fill: #F1EFE8; stroke: #5F5E5A; stroke-width: 0.5; }
+      .box-pink { fill: #FBEAF0; stroke: #993556; stroke-width: 0.5; }
+      .arr { stroke: #888780; stroke-width: 1; fill: none; marker-end: url(#arrow); }
+      .dashed { stroke: #B4B2A9; stroke-width: 0.5; stroke-dasharray: 6 3; fill: none; }
+    </style>
+  </defs>
+
+  <!-- LAYER 0: Clients -->
+  <text class="layer-title" x="340" y="22" text-anchor="middle">CLIENT LAYER</text>
+  <rect class="box-teal" x="50" y="30" width="100" height="44" rx="8"/>
+  <text class="label-md" x="100" y="51" text-anchor="middle">Mobile</text>
+  <text class="label-sm" x="100" y="67" text-anchor="middle">iOS / Android</text>
+
+  <rect class="box-teal" x="290" y="30" width="100" height="44" rx="8"/>
+  <text class="label-md" x="340" y="51" text-anchor="middle">Web</text>
+  <text class="label-sm" x="340" y="67" text-anchor="middle">Browser</text>
+
+  <rect class="box-teal" x="530" y="30" width="100" height="44" rx="8"/>
+  <text class="label-md" x="580" y="51" text-anchor="middle">Desktop</text>
+  <text class="label-sm" x="580" y="67" text-anchor="middle">Mac / Windows</text>
+
+  <line class="arr" x1="100" y1="74" x2="200" y2="112"/>
+  <line class="arr" x1="340" y1="74" x2="340" y2="112"/>
+  <line class="arr" x1="580" y1="74" x2="480" y2="112"/>
+
+  <!-- LAYER 1: CDN + Global Load Balancer -->
+  <text class="layer-title" x="340" y="104" text-anchor="middle">CDN / GLOBAL ROUTING</text>
+  <rect class="box-amber" x="130" y="112" width="160" height="44" rx="8"/>
+  <text class="label-md" x="210" y="132" text-anchor="middle">CloudFront CDN</text>
+  <text class="label-sm" x="210" y="148" text-anchor="middle">Static assets, media</text>
+
+  <rect class="box-amber" x="390" y="112" width="160" height="44" rx="8"/>
+  <text class="label-md" x="470" y="132" text-anchor="middle">Global Accelerator</text>
+  <text class="label-sm" x="470" y="148" text-anchor="middle">Anycast routing</text>
+
+  <line class="arr" x1="210" y1="156" x2="210" y2="194"/>
+  <line class="arr" x1="470" y1="156" x2="470" y2="194"/>
+
+  <!-- LAYER 2: Load Balancers -->
+  <text class="layer-title" x="340" y="186" text-anchor="middle">LOAD BALANCERS</text>
+  <rect class="box-purple" x="80" y="194" width="150" height="44" rx="8"/>
+  <text class="label-md" x="155" y="214" text-anchor="middle">ALB (L7)</text>
+  <text class="label-sm" x="155" y="230" text-anchor="middle">REST API routing</text>
+
+  <rect class="box-purple" x="450" y="194" width="150" height="44" rx="8"/>
+  <text class="label-md" x="525" y="214" text-anchor="middle">NLB (L4)</text>
+  <text class="label-sm" x="525" y="230" text-anchor="middle">WebSocket connections</text>
+
+  <line class="arr" x1="155" y1="238" x2="155" y2="276"/>
+  <line class="arr" x1="525" y1="238" x2="525" y2="276"/>
+
+  <!-- LAYER 3: Application Services -->
+  <text class="layer-title" x="340" y="268" text-anchor="middle">APPLICATION / SERVICE LAYER</text>
+  <rect class="box-blue" x="30" y="276" width="118" height="52" rx="8"/>
+  <text class="label-md" x="89" y="297" text-anchor="middle">REST API</text>
+  <text class="label-sm" x="89" y="315" text-anchor="middle">Users, groups, media</text>
+
+  <rect class="box-blue" x="165" y="276" width="118" height="52" rx="8"/>
+  <text class="label-md" x="224" y="297" text-anchor="middle">Auth Service</text>
+  <text class="label-sm" x="224" y="315" text-anchor="middle">JWT, sessions</text>
+
+  <rect class="box-blue" x="300" y="276" width="118" height="52" rx="8"/>
+  <text class="label-md" x="359" y="297" text-anchor="middle">Chat Server</text>
+  <text class="label-sm" x="359" y="315" text-anchor="middle">WebSocket, pub/sub</text>
+
+  <rect class="box-blue" x="435" y="276" width="118" height="52" rx="8"/>
+  <text class="label-md" x="494" y="297" text-anchor="middle">Notif. Service</text>
+  <text class="label-sm" x="494" y="315" text-anchor="middle">FCM, APNs, WebPush</text>
+
+  <rect class="box-blue" x="570" y="276" width="80" height="52" rx="8"/>
+  <text class="label-md" x="610" y="297" text-anchor="middle">Media</text>
+  <text class="label-sm" x="610" y="315" text-anchor="middle">Upload, thumb</text>
+
+  <line class="arr" x1="89" y1="328" x2="200" y2="375"/>
+  <line class="arr" x1="224" y1="328" x2="260" y2="375"/>
+  <line class="arr" x1="359" y1="328" x2="340" y2="375"/>
+  <line class="arr" x1="494" y1="328" x2="430" y2="375"/>
+
+  <!-- LAYER 4: Kafka -->
+  <text class="layer-title" x="340" y="368" text-anchor="middle">MESSAGE QUEUE</text>
+  <rect class="box-coral" x="140" y="375" width="400" height="52" rx="8"/>
+  <text class="label-md" x="340" y="397" text-anchor="middle">Apache Kafka</text>
+  <text class="label-sm" x="340" y="415" text-anchor="middle">Partitioned by conversation_id · RF=3 · 7-day retention</text>
+
+  <line class="arr" x1="200" y1="427" x2="130" y2="468"/>
+  <line class="arr" x1="280" y1="427" x2="290" y2="468"/>
+  <line class="arr" x1="400" y1="427" x2="400" y2="468"/>
+  <line class="arr" x1="480" y1="427" x2="530" y2="468"/>
+
+  <!-- LAYER 5: Workers -->
+  <text class="layer-title" x="340" y="460" text-anchor="middle">ASYNC WORKERS</text>
+  <rect class="box-green" x="40" y="468" width="120" height="44" rx="8"/>
+  <text class="label-md" x="100" y="489" text-anchor="middle">Persist</text>
+  <text class="label-sm" x="100" y="505" text-anchor="middle">Cassandra writer</text>
+
+  <rect class="box-green" x="230" y="468" width="120" height="44" rx="8"/>
+  <text class="label-md" x="290" y="489" text-anchor="middle">Deliver</text>
+  <text class="label-sm" x="290" y="505" text-anchor="middle">Redis pub/sub</text>
+
+  <rect class="box-green" x="360" y="468" width="120" height="44" rx="8"/>
+  <text class="label-md" x="420" y="489" text-anchor="middle">Push</text>
+  <text class="label-sm" x="420" y="505" text-anchor="middle">FCM / APNs</text>
+
+  <rect class="box-green" x="490" y="468" width="120" height="44" rx="8"/>
+  <text class="label-md" x="550" y="489" text-anchor="middle">Receipts</text>
+  <text class="label-sm" x="550" y="505" text-anchor="middle">Read / delivered</text>
+
+  <line class="arr" x1="100" y1="512" x2="100" y2="570"/>
+  <line class="arr" x1="290" y1="512" x2="290" y2="570"/>
+  <line class="arr" x1="420" y1="512" x2="420" y2="570"/>
+  <line class="arr" x1="550" y1="512" x2="550" y2="570"/>
+
+  <!-- LAYER 6: Data Stores -->
+  <text class="layer-title" x="340" y="562" text-anchor="middle">DATA STORES</text>
+  <rect class="box-gray" x="30" y="570" width="155" height="64" rx="8"/>
+  <text class="label-md" x="107" y="591" text-anchor="middle">Cassandra</text>
+  <text class="label-sm" x="107" y="607" text-anchor="middle">Messages, receipts</text>
+  <text class="label-sm" x="107" y="623" text-anchor="middle">3-region RF=3</text>
+
+  <rect class="box-gray" x="200" y="570" width="155" height="64" rx="8"/>
+  <text class="label-md" x="277" y="591" text-anchor="middle">Redis Cluster</text>
+  <text class="label-sm" x="277" y="607" text-anchor="middle">Presence, sessions</text>
+  <text class="label-sm" x="277" y="623" text-anchor="middle">Pub/sub, rate limits</text>
+
+  <rect class="box-gray" x="370" y="570" width="155" height="64" rx="8"/>
+  <text class="label-md" x="447" y="591" text-anchor="middle">PostgreSQL</text>
+  <text class="label-sm" x="447" y="607" text-anchor="middle">Users, groups</text>
+  <text class="label-sm" x="447" y="623" text-anchor="middle">Primary + replicas</text>
+
+  <rect class="box-gray" x="540" y="570" width="110" height="64" rx="8"/>
+  <text class="label-md" x="595" y="591" text-anchor="middle">AWS S3</text>
+  <text class="label-sm" x="595" y="607" text-anchor="middle">Media files</text>
+  <text class="label-sm" x="595" y="623" text-anchor="middle">11 nines durability</text>
+
+  <!-- LAYER 7: Observability -->
+  <text class="layer-title" x="340" y="660" text-anchor="middle">OBSERVABILITY</text>
+  <rect class="box-pink" x="80" y="668" width="145" height="44" rx="8"/>
+  <text class="label-md" x="152" y="689" text-anchor="middle">Prometheus</text>
+  <text class="label-sm" x="152" y="705" text-anchor="middle">Metrics + alerting</text>
+
+  <rect class="box-pink" x="267" y="668" width="145" height="44" rx="8"/>
+  <text class="label-md" x="339" y="689" text-anchor="middle">Jaeger</text>
+  <text class="label-sm" x="339" y="705" text-anchor="middle">Distributed tracing</text>
+
+  <rect class="box-pink" x="454" y="668" width="145" height="44" rx="8"/>
+  <text class="label-md" x="526" y="689" text-anchor="middle">ELK Stack</text>
+  <text class="label-sm" x="526" y="705" text-anchor="middle">Centralized logging</text>
+
+  <!-- Multi-region footer -->
+  <rect class="dashed" x="30" y="730" width="620" height="44" rx="8"/>
+  <text class="layer-title" x="340" y="750" text-anchor="middle">MULTI-REGION DEPLOYMENT</text>
+  <text class="label-sm" x="340" y="766" text-anchor="middle">us-east-1 (primary)  ·  eu-west-1  ·  ap-south-1  —  Active-active with Global Accelerator failover</text>
+</svg>
